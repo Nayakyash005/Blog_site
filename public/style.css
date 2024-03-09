@@ -49,7 +49,7 @@ header{
     display: flex;
 }
   .space-provider{
-    width: 1100px;
+    width: 1000px;
   }
 
   footer{
@@ -74,26 +74,28 @@ header{
 
   .Note-card{
     border: 1.5px rgb(175, 174, 174);
-    height: 142px;
-    width: 280px;
+    height: 100px;
+    width: 182px;
     box-shadow: 3px 4px 3px gray;
-    margin: 39px 49px;
-    padding: -11px 39px;
-    border-radius:13px ;
+    margin: 9px 49px;
+    padding: 9px 39px;
+    border-radius: 8px;
     background-color: rgb(255, 255, 255);
     overflow: hidden;
-    align-items: center ;
+    align-items: center;
     text-align: center;
 }
  .par-Notes{
     display: flex;
+    flex-direction: column;
+     margin: 10px 10px;
  } 
-    .Note-card p {
+    /* .Note-card p {
         font-size: smaller;
         position: relative;
         /* left: 17px; */
-        margin: -6px 11px;
-    }
+        /* margin: -6px 11px; */
+    /* } */ 
 
 .Note-card 
   /* .Note-card > input{
@@ -109,3 +111,185 @@ header{
     height: 12px;
     font-size:36px
   }
+
+  .form-container{
+    display: grid;
+    color: rgb(49, 65, 73) ;
+    position: relative;
+    justify-content: center; 
+    top: 80px;
+    border-radius: 12px;
+    box-shadow: 3px 4px 3px gray;
+    width: 400px;
+    left: 580px;
+    background-color: rgb(255, 255, 255);
+    height: 400px;
+    border: 1.5px rgb(175, 174, 174);
+  }
+
+  .form-container   button{
+    display: grid;
+    position: relative;
+    justify-content: center; 
+   color: #eee;
+    border-radius: 12px;
+    box-shadow: 3px 4px 3px gray;
+    width: 100px;
+    background-color: rgb(49, 65, 73);
+    height: 25px;
+    font-size: 1.25rem;
+    border: 1.5px rgb(175, 174, 174);
+  }
+
+  .form-container   button:hover{
+    display: grid;
+    position: relative;
+    justify-content: center; 
+   color: rgb(0, 0, 0);
+    border-radius: 12px;
+    scale: 1.2;
+    box-shadow: 3px 4px 3px gray;
+    width: 100px;
+    background-color:rgb(158, 158, 157);
+    height: 25px;
+    font-size: 1.25rem;
+    border: 1.5px rgb(175, 174, 174);
+    cursor: pointer;
+  }
+
+   input{
+    border-radius: 12px ;
+    width: 250px;
+   }
+   input:focus,
+   textarea:focus {
+       border: 2px solid #dfe362; /* Change border color when in focus */
+       outline: none; /* Remove default focus outline */
+
+       scale: 1.25;
+   }
+ a{
+  list-style: none;
+  font-style:normal;
+  text-decoration: none;
+  color: black;
+ }
+
+ a:hover{
+  scale: 1.2; 
+ }
+
+ .dropdown {
+  margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+.select {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color:#000000; /* Example background color */
+  color: #fff; /* Example text color */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#users{
+  padding: 10px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.select:hover {
+  background-color: #dfe362; /* Example hover background color */
+}
+
+.login{
+  display: flex;
+  margin: 5px 5px;
+}
+
+.add{
+  display: flex;
+  margin: 5px 5px;
+  background-color: black;
+  color: #eee; /* Green background color */
+  border: none; /* No border */
+  /* White text color */
+  padding: 8px 25px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* No underline */
+  display: inline-block; /* Make it inline block */
+  font-size: 16px; /* Font size */
+  /* margin: 4px 2px; Margin */
+  height: 40px;
+  cursor: pointer; /* Cursor pointer */
+  border-radius: 8px; /* Rounded corners */
+  transition-duration: 0.4s; /* Transition duration */
+  box-shadow: 2px 3px 4px gray;
+}
+
+.add:hover{
+  display: flex;
+  margin: 5px 5px;
+  background-color: rgb(240, 240, 240);
+  color: rgb(0, 0, 0); /* Green background color */
+  border: none; /* No border */
+  /* White text color */
+  padding: 8px 25px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* No underline */
+  display: inline-block; /* Make it inline block */
+  font-size: 16px; /* Font size */
+  /* margin: 4px 2px; Margin */
+  height: 40px;
+  cursor: pointer; /* Cursor pointer */
+  border-radius: 8px; /* Rounded corners */
+  transition-duration: 0.4s; /* Transition duration */
+  box-shadow: 2px 3px 4px gray;
+}
+
+h3{
+  color: #676860;
+}
+
+.my{
+  font-weight: bolder;
+  font-size: 1.15rem;
+}
+
+.par-blog-title{
+  display: flex;
+}
+
+.par-blog-title button{
+  height: 35px;
+  width: 65px;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+  box-shadow: 2px 3px 4px gray;
+  background-color:  rgb(0, 0, 0);
+  color:rgb(240, 240, 240);
+  justify-content: center;
+  position: relative;
+  left: 0;
+  align-items: center;
+  border: none;
+  margin: 33px -33px;
+
+}
+
+.par-blog-title button:hover{
+  scale: 1.2;
+  border-radius: 12px;
+  transition-duration: 0.5s;
+  box-shadow: 2px 3px 4px gray;
+  background-color: rgb(240, 240, 240);
+  color: rgb(0, 0, 0);
+  justify-content: center;
+  position: relative;
+  left: 0;
+  align-items: center;
+  border: none;
+  margin: 33px -33px;
+ cursor: pointer;
+}
+

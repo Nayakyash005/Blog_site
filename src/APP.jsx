@@ -1,17 +1,20 @@
 import React from "react";
-import Heading from "./Heading";
-import Footer from "./Footer";
-import Note from "./Note";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import Login from "./Login";
+import Add from "./Add";
 
-function APP(){
-    return (
-        <div>
-            <Heading />
-            <Footer />
-            <Note />
-            <Note />
-        </div>
-    );
+export const API_URL = "http://localhost:5000";
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/add" element={<Add />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default APP;
+export default App;
