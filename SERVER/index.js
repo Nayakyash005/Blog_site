@@ -23,6 +23,16 @@ const db = new pg.Client({
   // Define baseurl
 });
 
+db.connect();
+const baseurl = path.join(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "build"
+);
+app.use(express.static(baseurl));
+
+// ----------------------to Get Blog_data --------------------------------//
+
 app.get("/user/name", async (req, res) => {
   let result = await db.query("SELECt * FROM blog_data");
   //   console.log(result.rows);
@@ -41,14 +51,18 @@ app.get("/user/details/:id", async (req, res) => {
   // console.log(result.rows);
   res.json(result.rows);
 });
-db.connect();
-const baseurl = path.join(
-  dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "build"
-);
-app.use(express.static(baseurl));
 
+app.get("/user/:id/:title", async (req, res) => {
+  const id = req.params.id;
+  const title = req.params.title;
+
+  let result = await db.query(
+    "SELECt * FROM blog_data WHERE id =$1 and title = $2",
+    [id, title]
+  );
+  res.json(result.rows);
+});
+//----------get data from user if exists----------------//
 app.get("/submit", async (req, res) => {
   const result = req.query;
   console.log("call hua", result);
