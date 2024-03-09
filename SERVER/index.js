@@ -39,6 +39,14 @@ app.get("/user/name", async (req, res) => {
   res.json(result.rows);
 });
 
+app.get("/user/:id", async (req, res) => {
+  const user = req.params.id;
+  let result = await db.query("SELECT blog,title FROM blogs WHERE (id =$1)", [
+    user,
+  ]);
+  // console.log(result.rows);
+  res.json(result.rows);
+});
 app.get("/user/details/:id", async (req, res) => {
   const user = req.params.id;
   if (user === undefined) {
