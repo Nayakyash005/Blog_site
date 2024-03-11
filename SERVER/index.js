@@ -47,6 +47,7 @@ app.get("/user/:id", async (req, res) => {
   // console.log(result.rows);
   res.json(result.rows);
 });
+
 app.get("/user/details/:id", async (req, res) => {
   const user = req.params.id;
   if (user === undefined) {
@@ -71,6 +72,7 @@ app.get("/user/:id/:title", async (req, res) => {
   res.json(result.rows);
 });
 //----------get data from user if exists----------------//
+
 app.get("/submit", async (req, res) => {
   const result = req.query;
   console.log("call hua", result);
@@ -107,6 +109,14 @@ app.get("/additon", async (req, res) => {
   } else {
     res.send("GO Login First");
   }
+});
+
+//------------------to delete the data of the user ----------.//
+
+app.get("/delete/:id/:title", async (req, res) => {
+  const id = req.params.id;
+  const title = req.params.title;
+  await db.query("DELETE FROM blogs WHERE title = $1", [title]);
 });
 app.get("*", (req, res) => {
   res.sendFile(path.join(baseurl, "index.html")); // Use path.join to correctly construct file path
