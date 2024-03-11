@@ -8,6 +8,13 @@ function Note() {
   const [blog, setBlog] = useState([]);
   const [isClickBtn, setIsClickBtn] = useState(false);
   const [isClickBtn2, setIsClickBtn2] = useState(false);
+  const [activeBlog, setactiveBlog] = useState(blog[0]);
+  // const [deletedBlog, setdeleteBlog] = useState(blog[0]);
+
+  async function deleteBlog(title, id) {
+    await axios.get(API_URL + "/delete/" + id + "/" + title);
+    get_user_name();
+  }
 
   async function get_user_name() {
     let result = await axios.get(API_URL + "/user/name");
@@ -22,7 +29,7 @@ function Note() {
     setIsClickBtn(true);
     // await get_user_blog(id);
     let result = blog.filter((e) => e.title === tit);
-    setBlog(result);
+    setactiveBlog(result);
 
     setIsClickBtn2(false);
   }
@@ -98,7 +105,7 @@ function Note() {
             <div className="blog-list">
               {isClickBtn ? (
                 <>
-                  {blog.map((ele) => (
+                  {activeBlog.map((ele) => (
                     <div key={ele.id} className="note-card">
                       <div className="img">
                         <img
@@ -109,9 +116,20 @@ function Note() {
                       <div className="content">
                         <h3 className="note-title">{ele.title}</h3>
                         <p className="note-content">{ele.blog}</p>
-                        <button className="Delete-btn">Delete</button>
+                        <form action="/">
+                          <button
+                            onClick={() => {
+                              deleteBlog(ele.title, ele.id);
+                            }}
+                            className="Delete-btn"
+                          >
+                            Delete
+                          </button>
+                        </form>
                         <button
-                          onClick={() => getFullBlog(ele.id)}
+                          onClick={() => {
+                            setactiveBlog(blog);
+                          }}
                           className="show-btn"
                         >
                           Show all{" "}
@@ -134,9 +152,20 @@ function Note() {
                         <div className="content">
                           <h3 className="note-title">{ele.title}</h3>
                           <p className="note-content">{ele.blog}</p>
-                          <button className="Delete-btn">Delete</button>
+                          <form action="/">
+                            <button
+                              onClick={() => {
+                                deleteBlog(ele.title, ele.id);
+                              }}
+                              className="Delete-btn"
+                            >
+                              Delete
+                            </button>
+                          </form>
                           <button
-                            onClick={() => getFullBlog(ele.id)}
+                            onClick={() => {
+                              setactiveBlog(blog);
+                            }}
                             className="show-btn"
                           >
                             Show all{" "}

@@ -5,10 +5,10 @@ import Note from "./components/Note";
 
 function Home() {
   return (
-    <div>
+    <div style={{ minHeight: "100%" }}>
       <Heading />
-      <Footer />
       <Note />
+      <Footer />
     </div>
   );
 }
