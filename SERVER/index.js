@@ -48,6 +48,15 @@ app.get("/user/:id", async (req, res) => {
   res.json(result.rows);
 });
 
+app.get("/Auth/:name", async (req, res) => {
+  const user = req.params.name;
+  let result = await db.query("SELECT * FROM blog_data WHERE (email =$1)", [
+    user,
+  ]);
+  console.log(result.rows);
+  res.json(result.rows);
+});
+
 app.get("/user/details/:id", async (req, res) => {
   const user = req.params.id;
   if (user === undefined) {

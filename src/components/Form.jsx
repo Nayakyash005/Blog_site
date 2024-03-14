@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { API_URL } from "../App";
+import axios from "axios";
+import { useState } from "react";
 
 function Form() {
-  return (
+  const { user, loginWithRedirect, logout, isAuthenticated, isLoading } =
+    useAuth0();
+
+  const [email, setemail] = useState("");
+  const [name, setname] = useState("");
+  async function getdata() {
+    setemail(user.email);
+    setname(user.name);
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getdata();
+    }
+  }, [isAuthenticated]);
+
+  // Get the value of the 'name' parameter
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  return isAuthenticated ? (
     <>
-      <div className="form-container">
+      <div cla ssName="form-container">
         <div className="head">
           <h2> Enter your Details</h2>
         </div>
@@ -17,6 +42,7 @@ function Form() {
             id="name"
             name="name"
             placeholder="Enter your name"
+            defaultValue={name}
           ></input>
           <br></br>
           <label htmlFor="number" className="frm">
@@ -31,7 +57,7 @@ function Form() {
           ></input>
           <br></br>
           <label htmlFor="email" className="frm">
-            E-mail
+            email
           </label>
           <br></br>
           <input
@@ -39,6 +65,7 @@ function Form() {
             id="email"
             name="email"
             placeholder="Enter your email"
+            value={email}
           ></input>
           <br></br>
           <label htmlFor="password" className="frm">
@@ -78,6 +105,14 @@ function Form() {
           <button className="btn">submit</button>
         </form>
       </div>
+    </>
+  ) : (
+    <>
+      <h2> Plz sign in </h2>
+      <button className="login" onClick={() => loginWithRedirect()}>
+        {" "}
+        login With Google <i class="fa fa-google"></i>
+      </button>
     </>
   );
 }
