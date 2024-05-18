@@ -8,6 +8,7 @@ import cors from "cors";
 // Import path module
 import path from "path";
 import exp from "constants";
+// Define baseurl
 
 const app = express();
 const port = 5000;
@@ -20,10 +21,10 @@ const db = new pg.Client({
   port: 5432,
   password: "123456",
   user: "postgres",
-  // Define baseurl
 });
 
 db.connect();
+
 const baseurl = path.join(
   dirname(fileURLToPath(import.meta.url)),
   "..",
@@ -35,7 +36,6 @@ app.use(express.static(baseurl));
 
 app.get("/user/name", async (req, res) => {
   let result = await db.query("SELECt * FROM blog_data");
-  //   console.log(result.rows);
   res.json(result.rows);
 });
 
@@ -44,7 +44,6 @@ app.get("/user/:id", async (req, res) => {
   let result = await db.query("SELECT blog,title FROM blogs WHERE (id =$1)", [
     user,
   ]);
-  // console.log(result.rows);
   res.json(result.rows);
 });
 
@@ -53,7 +52,6 @@ app.get("/Auth/:name", async (req, res) => {
   let result = await db.query("SELECT * FROM blog_data WHERE (email =$1)", [
     user,
   ]);
-  console.log(result.rows);
   res.json(result.rows);
 });
 
@@ -66,7 +64,6 @@ app.get("/user/details/:id", async (req, res) => {
   let result = await db.query("SELECT blog,title FROM blogs WHERE (id =$1)", [
     user,
   ]);
-  // console.log(result.rows);
   res.json(result.rows);
 });
 
@@ -84,7 +81,6 @@ app.get("/user/:id/:title", async (req, res) => {
 
 app.get("/submit", async (req, res) => {
   const result = req.query;
-  console.log("call hua", result);
   await db.query(
     "INSERT INTO blog_data(name, email, phone, password) VALUES($1,$2,$3,$4)",
     [result.name, result.email, result.phone, result.password]
@@ -93,7 +89,6 @@ app.get("/submit", async (req, res) => {
   let id = await db.query("SELECT id FROM blog_data WHERE(name = $1)", [
     result.name,
   ]);
-  // console.log(id.rows);
   await db.query("INSERT INTO blogs(id,blog,title) values($1,$2,$3)", [
     id.rows[0].id,
     result.feedback,
@@ -107,7 +102,6 @@ app.get("/additon", async (req, res) => {
   const name = await db.query("SELECT * FROM blog_data WHERE name = $1", [
     result.name,
   ]);
-  console.log(result.name, "and", name.rows);
   if (name.rows) {
     await db.query("INSERT INTO blogs(id,blog,title) values($1,$2,$3)", [
       name.rows[0].id,
@@ -128,7 +122,7 @@ app.get("/delete/:id/:title", async (req, res) => {
   await db.query("DELETE FROM blogs WHERE title = $1", [title]);
 });
 app.get("*", (req, res) => {
-  res.sendFile(path.join(baseurl, "index.html")); // Use path.join to correctly construct file path
+  res.sendFile(path.join(baseurl, "index.html"));
 });
 
 app.listen(port, () => {
