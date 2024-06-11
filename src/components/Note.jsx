@@ -8,178 +8,157 @@ function Note() {
   const [blog, setBlog] = useState([]);
   const [isClickBtn, setIsClickBtn] = useState(false);
   const [isClickBtn2, setIsClickBtn2] = useState(false);
-  const [activeBlog, setactiveBlog] = useState(blog[0]);
-  // const [deletedBlog, setdeleteBlog] = useState(blog[0]);
+  const [activeBlog, setActiveBlog] = useState(blog[0]);
 
   async function deleteBlog(title, id) {
     await axios.get(API_URL + "/delete/" + id + "/" + title);
-    get_user_name();
+    getUserName();
   }
 
-  async function get_user_name() {
+  async function getUserName() {
     let result = await axios.get(API_URL + "/user/name");
     setIsClickBtn(false);
     setBlog([]);
-
     setIsClickBtn2(false);
     setList(result.data);
   }
 
-  async function getBlogcontent(id, tit) {
+  async function getBlogContent(id, title) {
     setIsClickBtn(true);
-    // await get_user_blog(id);
-    let result = blog.filter((e) => e.title === tit);
-    setactiveBlog(result);
-
+    let result = blog.filter((e) => e.title === title);
+    setActiveBlog(result);
     setIsClickBtn2(false);
   }
 
-  useEffect(() => {
-    get_user_name();
+   useEffect(() => {
+    getUserName();
   }, []);
 
-  async function get_user_blog(id) {
-    let blog = await axios.get(API_URL + "/user/details/" + id);
-    setBlog(blog.data);
-    console.log(blog.data);
-    setStore(blog.data);
+  async function getUserBlog(id) {
+    let userBlog = await axios.get(API_URL + "/user/details/" + id);
+    setBlog(userBlog.data);
+    setStore(userBlog.data);
     setIsClickBtn(false);
     setIsClickBtn2(false);
   }
-  console.log(store);
-  async function getFullBlog(id) {
-    console.log(store);
+
+  async function getFullBlog() {
     setBlog(store);
     setIsClickBtn2(true);
   }
+
   return (
-    <>
-      <div className="per">
-        <div className="section-1">
-          <div className="dropdown">
-            <label htmlFor="users" className="select">
-              Select User
-            </label>
-            <select
-              name="users"
-              onChange={(event) => {
-                get_user_blog(event.target.value);
-              }}
-              id="users"
-            >
-              {list.map((ele) => {
-                return (
-                  <option key={ele.id} value={ele.id}>
-                    {ele.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="par-Notes">
-            {blog.map((ele) => {
-              return (
-                <div key={ele.id} className="par-blog-title">
-                  <div className="Note-card">
-                    <h3> Blog Title</h3>
-                    <br></br>
-                    <h4 className="my">{ele.title}</h4>
-                  </div>
-                  <button
-                    className="blog-btn"
-                    onClick={() => getBlogcontent(ele.id, ele.title)}
-                  >
-                    {" "}
-                    see blog
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+    <div className="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-x-8">
+      <div className="w-full md:w-1/3">
+        <div className="dropdown">
+          <label htmlFor="users" className="block font-semibold mb-2">
+            Select User
+          </label>
+          <select
+            name="users"
+            onChange={(event) => getUserBlog(event.target.value)}
+            id="users"
+            className="w-full p-2 border border-gray-300 rounded"
+          >
+            {list.map((ele) => (
+              <option key={ele.id} value={ele.id}>
+                {ele.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="section-2">
-          <div className="blog-container">
-            <div className="blog-header">
-              <h2>Latest Blogs</h2>
+        <div className="space-y-4">
+          {blog.map((ele) => (
+            <div key={ele.id} className="bg-gray-100 p-4 rounded shadow">
+              <h3 className="text-lg font-semibold mb-2">Blog Title</h3>
+              <p className="text-gray-800">{ele.title}</p>
+              <button
+                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                onClick={() => getBlogContent(ele.id, ele.title)}
+              >
+                See Blog
+              </button>
             </div>
-            <div className="blog-list">
-              {isClickBtn ? (
-                <>
-                  {activeBlog.map((ele) => (
-                    <div key={ele.id} className="note-card">
-                      <div className="img">
+          ))}
+        </div>
+      </div>
+      <div className="w-full md:w-2/3">
+        <div className="blog-container">
+          <div className="blog-header">
+            <h2 className="text-2xl font-bold mb-4">Latest Blogs</h2>
+          </div>
+          <div className="space-y-8">
+            {isClickBtn ? (
+              <>
+                {activeBlog.map((ele) => (
+                  <div key={ele.id} className="bg-gray-100 p-4 rounded shadow">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-lg font-semibold">Blog Title</h3>
+                      <img
+                        src="https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJsb2clMjBzaXRlfGVufDB8fDB8fHww"
+                        alt="Blog Image"
+                        className="w-24 h-24 object-cover rounded-full"
+                      />
+                    </div>
+                    <p className="text-gray-800">{ele.title}</p>
+                    <p className="text-gray-600 mt-2">{ele.blog}</p>
+                    <div className="flex justify-between mt-4">
+                      <button
+                        onClick={() => deleteBlog(ele.title, ele.id)}
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => setActiveBlog(blog)}
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                      >
+                        Show all
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {isClickBtn2 &&
+                  blog.map((ele) => (
+                    <div
+                      key={ele.id}
+                      className="bg-gray-100 p-4 rounded shadow"
+                    >
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-semibold">Blog Title</h3>
                         <img
                           src="https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJsb2clMjBzaXRlfGVufDB8fDB8fHww"
-                          alt=""
+                          alt="Blog Image"
+                          className="w-24 h-24 object-cover rounded-full"
                         />
                       </div>
-                      <div className="content">
-                        <h3 className="note-title">{ele.title}</h3>
-                        <p className="note-content">{ele.blog}</p>
-                        <form action="/">
-                          <button
-                            onClick={() => {
-                              deleteBlog(ele.title, ele.id);
-                            }}
-                            className="Delete-btn"
-                          >
-                            Delete
-                          </button>
-                        </form>
+                      <p className="text-gray-800">{ele.title}</p>
+                      <p className="text-gray-600 mt-2">{ele.blog}</p>
+                      <div className="flex justify-between mt-4">
                         <button
-                          onClick={() => {
-                            setactiveBlog(blog);
-                          }}
-                          className="show-btn"
+                          onClick={() => deleteBlog(ele.title, ele.id)}
+                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
                         >
-                          Show all{" "}
+                          Delete
+                        </button>
+                        <button
+                          onClick={() => setActiveBlog(blog)}
+                          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                        >
+                          Show all
                         </button>
                       </div>
                     </div>
                   ))}
-                </>
-              ) : (
-                <>
-                  {isClickBtn2 &&
-                    blog.map((ele) => (
-                      <div key={ele.id} className="note-card">
-                        <div className="img">
-                          <img
-                            src="https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJsb2clMjBzaXRlfGVufDB8fDB8fHww"
-                            alt=""
-                          />
-                        </div>
-                        <div className="content">
-                          <h3 className="note-title">{ele.title}</h3>
-                          <p className="note-content">{ele.blog}</p>
-                          <form action="/">
-                            <button
-                              onClick={() => {
-                                deleteBlog(ele.title, ele.id);
-                              }}
-                              className="Delete-btn"
-                            >
-                              Delete
-                            </button>
-                          </form>
-                          <button
-                            onClick={() => {
-                              setactiveBlog(blog);
-                            }}
-                            className="show-btn"
-                          >
-                            Show all{" "}
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                </>
-              )}
-            </div>
+              </>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

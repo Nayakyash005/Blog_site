@@ -1,31 +1,27 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+
 function Heading() {
   const { user, loginWithRedirect, logout, isAuthenticated } = useAuth0();
-  console.log("current user :", user);
+
   return (
-    <header>
-      <div className="main-header">
-        <h1>
-          {" "}
-          <a href="/"> My Blog site! </a>
+    <header className="bg-gray-800 py-4">
+      <div className="container mx-auto flex items-center justify-between">
+        <h1 className="text-white text-2xl font-bold">
+          <a href="/">My Blog Site!</a>
         </h1>
 
-        {isAuthenticated && <h2> Hello {user.name}</h2>}
+        {isAuthenticated && <h2 className="text-white">Hello {user.name}</h2>}
+
         <div className="space-provider"></div>
-        <form action="/add">
-          <button className="add"> Add Blog</button>
-        </form>
-        <form action="/login">
-          <button className="login">
-            {" "}
-            login <i class="fa fa-user-circle-o style "></i>
-          </button>
-        </form>
+
+        <button className="add bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
+          Add Blog
+        </button>
 
         {isAuthenticated ? (
           <button
-            className="login"
+            className="login bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
             onClick={() =>
               logout({ logoutParams: { returnTo: window.location.origin } })
             }
@@ -33,9 +29,11 @@ function Heading() {
             Log Out
           </button>
         ) : (
-          <button className="login" onClick={() => loginWithRedirect()}>
-            {" "}
-            login With Google <i class="fa fa-google"></i>
+          <button
+            className="login bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+            onClick={() => loginWithRedirect()}
+          >
+            Login With Google <i className="fa fa-google ml-2"></i>
           </button>
         )}
       </div>

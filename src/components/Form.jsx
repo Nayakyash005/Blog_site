@@ -1,119 +1,130 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { API_URL } from "../App";
-import axios from "axios";
-import { useState } from "react";
 
 function Form() {
-  const { user, loginWithRedirect, logout, isAuthenticated, isLoading } =
-    useAuth0();
+  const { user, loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
-  const [email, setemail] = useState("");
-  const [name, setname] = useState("");
-  async function getdata() {
-    setemail(user.email);
-    setname(user.name);
-  }
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
-      getdata();
+      setEmail(user.email);
+      setName(user.name);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user]);
 
-  // Get the value of the 'name' parameter
   if (isLoading) {
     return <div>Loading ...</div>;
   }
 
   return isAuthenticated ? (
-    <>
-      <div cla ssName="form-container">
-        <div className="head">
-          <h2> Enter your Details</h2>
-        </div>
-        <form action="/submit">
-          <label htmlFor="name" className="frm">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
+        <h2 className="text-2xl font-bold mb-4">Enter your Details</h2>
+        <form>
+          <label
+            htmlFor="name"
+            className="block text-gray-700 font-semibold mb-2"
+          >
             Name
           </label>
-          <br></br>
           <input
-            type="name"
+            type="text"
             id="name"
             name="name"
             placeholder="Enter your name"
             defaultValue={name}
-          ></input>
-          <br></br>
-          <label htmlFor="number" className="frm">
-            contact no
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <label
+            htmlFor="phone"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Contact No
           </label>
-          <br></br>
           <input
-            type="number"
+            type="tel"
             id="phone"
             name="phone"
             placeholder="Enter your contact No"
-          ></input>
-          <br></br>
-          <label htmlFor="email" className="frm">
-            email
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <label
+            htmlFor="email"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Email
           </label>
-          <br></br>
           <input
             type="email"
             id="email"
             name="email"
             placeholder="Enter your email"
             value={email}
-          ></input>
-          <br></br>
-          <label htmlFor="password" className="frm">
-            security-Key
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <label
+            htmlFor="password"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Security Key
           </label>
-          <br></br>
           <input
             type="password"
             id="password"
             name="password"
             placeholder="Your password"
-          ></input>
-          <br></br>
-          <label htmlFor="name" className="frm">
-            feedback
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <label
+            htmlFor="feedback"
+            className="block text-gray-700 font-semibold mb-2"
+          >
+            Feedback
           </label>
-          <br></br>
           <input
             type="text"
             id="feedback"
             name="feedback"
-            placeholder="Enter your Blog"
-          ></input>
-          <br></br>
-          <label htmlFor="name" className="frm">
+            placeholder="Enter your feedback"
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <label
+            htmlFor="title"
+            className="block text-gray-700 font-semibold mb-2"
+          >
             Title
           </label>
-          <br></br>
           <input
             type="text"
             id="title"
             name="title"
             placeholder="Enter your title"
-          ></input>
-          <br></br>
-          <br></br>
-          <button className="btn">submit</button>
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+          />
+
+          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300 w-full">
+            Submit
+          </button>
         </form>
       </div>
-    </>
+    </div>
   ) : (
-    <>
-      <h2> Plz sign in </h2>
-      <button className="login" onClick={() => loginWithRedirect()}>
-        {" "}
-        login With Google <i class="fa fa-google"></i>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h2 className="text-2xl font-bold mb-4">Please sign in</h2>
+      <button
+        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300 flex items-center"
+        onClick={() => loginWithRedirect()}
+      >
+        Login with Google <i className="fa fa-google ml-2"></i>
       </button>
-    </>
+    </div>
   );
 }
 
